@@ -1,0 +1,38 @@
+{
+  "name": "pwrline-js",
+  "version": "0.1.0",
+  "description": "a powerline-style shell prompt builder for node js",
+  "main": "index.js",
+  "scripts": {
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/akileez/pwrline-js.git"
+  },
+  "author": {
+    "name": "Keith Williams",
+    "email": "git@keeda.net",
+    "url": "http://yourURL.com"
+  },
+  "homepage": "https://github.com/akileez/pwrline-js",
+  "bugs": {
+    "url": "https://github.com/akileez/pwrline-js/issues"
+  },
+  "license": {
+    "type": "ISC",
+    "url": "https://github.com/akileez/pwrline-js/blob/master/LICENSE"
+  },
+  "keywords": [],
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "files": [
+    "LICENSE",
+    "index.js",
+    "README.md"
+  ]
+}
