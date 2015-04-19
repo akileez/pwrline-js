@@ -1,6 +1,6 @@
 {
   "name": "pwrline-js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "a powerline-style shell prompt builder for node js",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "url": "https://github.com/akileez/pwrline-js/issues"
   },
   "license": {
-    "type": "ISC",
+    "type": "MIT",
     "url": "https://github.com/akileez/pwrline-js/blob/master/LICENSE"
   },
   "keywords": [],
