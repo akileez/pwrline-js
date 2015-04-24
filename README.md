@@ -23,9 +23,8 @@ For zsh:
 ```sh
 function powerline_precmd()
 {
-   export PS1="$(powerline $? --depth 2) "
+   export PS1="$(powerline $? --depth 2 --hostname) "
    export PS2="$(powerline $? --ps2 ) "
-   export SPROMPT="zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? " 
 }
 precmd_functions=(powerline_precmd)
 ```
@@ -53,9 +52,36 @@ precmd_functions=(powerline_precmd)
 `--ps2`  
 : generate a ps2 segment powerline style
 
+`--hostname`  
+: generate a hostname segment. defaults to `false`
+
 Any further arguments are presumed to be `$?` aka the error returned by the previous shell command.
 
 No mercurial support yet and the svn support isn't good, but then, you're using git anyway. Note that I default to zsh because that's how I roll, but the original defaults to bash.
+
+## Customize the colors
+
+Use the following environment variables in order to override the default segment colors:
+
+segment | environment variable
+-----|---------------------
+hostname | `POWERLINE_HOSTNAME_BG`, `POWERLINE_HOSTNAME_FG`
+path | `POWERLINE_PATH_BG`, `POWERLINE_PATH_FG`, `POWERLINE_CWD_FG`, `POWERLINE_SEPARATOR_FG`
+git repo status | `POWERLINE_REPO_CLEAN_BG`, `POWERLINE_REPO_CLEAN_FG`, `POWERLINE_REPO_DIRTY_BG`, `POWERLINE_REPO_DIRTY_FG`
+command status | `POWERLINE_CMD_PASSED_BG`, `POWERLINE_CMD_PASSED_FG`, `POWERLINE_CMD_FAILED_BG`, `POWERLINE_CMD_FAILED_FG`
+subversion status | `POWERLINE_SVN_CHANGES_BG`, `POWERLINE_SVN_CHANGES_FG`
+virtual python environment name | `POWERLINE_VIRTUAL_ENV_BG`, `POWERLINE_VIRTUAL_ENV_FG`
+
+
+Example:
+
+```sh
+# Configure powerline
+export POWERLINE_REPO_CLEAN_BG=149
+export POWERLINE_REPO_CLEAN_FG=0
+export POWERLINE_REPO_DIRTY_BG=160
+export POWERLINE_REPO_DIRTY_FG=250
+```
 
 ## Why?
 
