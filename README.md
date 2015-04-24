@@ -2,6 +2,12 @@
 
 ![powerline prompt in action](http://i.imgur.com/EzEVaLB.png)
 
+## Features
+- powerline PS2 prompt
+- optional hostname segment
+- enhanced git repo information (icons)
+- user configurable colors (thanks @janoskk)
+
 ## Installation
 ```sh
 $ npm install akileez\pwrline-js
@@ -52,10 +58,12 @@ precmd_functions=(powerline_precmd)
 : generate *only* a source repository segment; defaults to `false`
 
 `--ps2`  
-: generate a ps2 segment powerline style
+: generate a ps2 segment powerline style  
 
 `--hostname`  
 : generate a hostname segment. defaults to `false`
+
+![ps2 prompt with hostname configured](http://i.imgur.com/8ssFi2q.png)
 
 Any further arguments are presumed to be `$?` aka the error returned by the previous shell command.
 
