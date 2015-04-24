@@ -8,29 +8,29 @@ var
 
 var COLOR =
 {
-	PATH_BG: 237,  // dark grey
-	PATH_FG: 250,  // light grey
-	CWD_FG: 254, // nearly-white grey
-	SEPARATOR_FG: 244,
+	PATH_BG: process.env.POWERLINE_PATH_BG || 237,  // dark grey
+	PATH_FG: process.env.POWERLINE_PATH_FG || 250,  // light grey
+	CWD_FG: process.env.POWERLINE_CWD_FG || 254, // nearly-white grey
+	SEPARATOR_FG: process.env.POWERLINE_SEPARATOR_FG || 244,
 
-	REPO_CLEAN_BG: 148, // a light green color
-	REPO_CLEAN_FG: 0,  // black
-	REPO_DIRTY_BG: 15, // white
-	REPO_DIRTY_FG: 0, // black
+	REPO_CLEAN_BG: process.env.POWERLINE_REPO_CLEAN_BG || 148, // a light green color
+	REPO_CLEAN_FG: process.env.POWERLINE_REPO_CLEAN_FG || 0,  // black
+	REPO_DIRTY_BG: process.env.POWERLINE_REPO_DIRTY_BG || 15, // white
+	REPO_DIRTY_FG: process.env.POWERLINE_REPO_DIRTY_FG || 0, // black
 
-	CMD_PASSED_BG: 236,
-	CMD_PASSED_FG: 15,
-	CMD_FAILED_BG: 161,
-	CMD_FAILED_FG: 15,
+	CMD_PASSED_BG: process.env.POWERLINE_CMD_PASSED_BG || 236,
+	CMD_PASSED_FG: process.env.POWERLINE_CMD_PASSED_FG || 15,
+	CMD_FAILED_BG: process.env.POWERLINE_CMD_FAILED_BG || 161,
+	CMD_FAILED_FG: process.env.POWERLINE_CMD_FAILED_FG || 15,
 
-	SVN_CHANGES_BG: 148,
-	SVN_CHANGES_FG: 22, // dark green
+	SVN_CHANGES_BG: process.env.POWERLINE_SVN_CHANGES_BG || 148,
+	SVN_CHANGES_FG: process.env.POWERLINE_SVN_CHANGES_FG || 22, // dark green
 
-	VIRTUAL_ENV_BG: 35, // a mid-tone green
-	VIRTUAL_ENV_FG: 22,
+	VIRTUAL_ENV_BG: process.env.POWERLINE_VIRTUAL_ENV_BG || 35, // a mid-tone green
+	VIRTUAL_ENV_FG: process.env.POWERLINE_VIRTUAL_ENV_FG || 22,
 
-	HOST_BG: 166,
-	HOST_FG: 220
+	HOST_BG: process.env.POWERLINE_HOSTNAME_BG || 166,
+	HOST_FG: process.env.POWERLINE_HOSTNAME_FG || 220
 };
 
 var SYMBOLS = {
@@ -95,6 +95,7 @@ function Powerline(options)
 	this.options.showPath = options.showPath || true;
 	this.options.cwdOnly = options.cwdOnly || false;
 	this.options.ps2 = options.ps2 || false;
+	this.options.hostname = options.hostname || false;
 
 	this.shell = new Shell(this.options.shell);
 
@@ -105,8 +106,22 @@ function Powerline(options)
 	this.cwd = process.env.PWD || process.cwd();
 	this.isRoot = process.getuid() === 0;
 	this.error = options.hasOwnProperty('error') ? options.error : false;
-	this.userAtHost = ' %m ';
 }
+
+Powerline.prototype.buildPrompt = function(callback)
+{
+	var self = this;
+
+	this.addHostSegment();
+	this.addVirtualEnvSegment();
+	this.addCWDSegment();
+	this.addPS2Segment();
+	this.addRepoSegment(function()
+	{
+		self.addRootIndicator();
+		callback();
+	});
+};
 
 Powerline.prototype.draw = function(code)
 {
@@ -129,17 +144,18 @@ Powerline.prototype.draw = function(code)
 Powerline.prototype.addHostSegment = function ()
 {
 
+	if (!this.options.hostname) return;
 	var bg = this.remoteSSH ? COLOR.CMD_FAILED_BG : COLOR.HOST_BG;
 	var fg = this.remoteSSH ? COLOR.CMD_FAILED_FG : COLOR.HOST_FG;
 
-	if (this.userAtHost)
-		symbol = this.userAtHost;
+	var symbol = ' ' + require('os').hostname() + ' ';
 
 	this.segments.push(new Segment(this, symbol, COLOR.HOST_FG, COLOR.HOST_BG ));
 };
 
 Powerline.prototype.addPS2Segment = function ()
 {
+	if (!this.options.ps2) return;
 	var ps2 = " %_ "
 
 	this.segments.push(new Segment(this, ps2, COLOR.HOST_FG, COLOR.HOST_BG));
@@ -147,7 +163,7 @@ Powerline.prototype.addPS2Segment = function ()
 
 Powerline.prototype.addCWDSegment = function()
 {
-	if (!this.options.showPath)
+	if (!this.options.showPath || this.options.ps2)
 		return;
 
 	var home = process.env['HOME'];
@@ -224,7 +240,7 @@ Powerline.prototype.addVirtualEnvSegment = function()
 
 Powerline.prototype.addRepoSegment = function(callback)
 {
-	if (!this.options.showRepo)
+	if (!this.options.showRepo || this.options.ps2)
 		return callback();
 
 	var self = this;
@@ -381,14 +397,13 @@ Segment.prototype.draw = function(nextSegment)
 
 //---------------------------------------------------
 
-if (require.main === module)
-{
-	var opts = process.argv.slice(2);
+function parseOptions(args) {
+	args = args || [];
 	var options = {};
 
-	while (opts.length)
+	while (args.length)
 	{
-		var opt = opts.shift();
+		var opt = args.shift();
 		switch (opt)
 		{
 			case '--cwd-only':
@@ -398,15 +413,15 @@ if (require.main === module)
 				break;
 
 			case '--shell':
-				options.shell = opts.shift();
+				options.shell = args.shift();
 				break;
 
 			case '--mode':
-				options.mode = opts.shift();
+				options.mode = args.shift();
 				break;
 
 			case '--depth':
-				options.depth = parseInt(opts.shift(), 10);
+				options.depth = parseInt(args.shift(), 10);
 				break;
 
 			case '--repo-only':
@@ -422,30 +437,29 @@ if (require.main === module)
 				options.ps2 = true;
 				break;
 
+			case '--hostname':
+				options.hostname = true;
+				break;
+
 			default:
 				options.error = (opt !== '0');
 		}
 	}
+	return options;
+}
 
+
+if (require.main === module)
+{
+	var options = parseOptions(process.argv.slice(2));
 	var p = new Powerline(options);
-	if (!options.ps2){
-		p.addVirtualEnvSegment();
-		p.addHostSegment();
-		p.addCWDSegment();
-		p.addRepoSegment(function()
-		{
-			p.addRootIndicator();
-			process.stdout.write(p.draw());
-		});
-	}
-	if (options.ps2) {
-		p.addPS2Segment();
-		p.addRootIndicator();
+	p.buildPrompt(function()
+	{
 		process.stdout.write(p.draw());
-	}
-
+	});
 }
 
 exports.Powerline = Powerline;
 exports.Segment = Segment;
+exports.parseOptions = parseOptions;
 
