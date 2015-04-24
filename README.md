@@ -50,7 +50,7 @@ precmd_functions=(powerline_precmd)
 `--repo-only`  
 : generate *only* a source repository segment; defaults to `false`
 
-`--ps2`
+`--ps2`  
 : generate a ps2 segment powerline style
 
 Any further arguments are presumed to be `$?` aka the error returned by the previous shell command.
