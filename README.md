@@ -1,5 +1,7 @@
 # pwrline-js
 
+![powerline prompt in action](http://i.imgur.com/EzEVaLB.png)
+
 ## Installation
 ```sh
 $ npm install akileez\pwrline-js
@@ -86,8 +88,9 @@ export POWERLINE_REPO_DIRTY_FG=250
 ## Why?
 
 
-## See Also
--
+## See Also  
+- original fork from @ceejbot [powerline-js](https://github.com/ceejbot/powerline-js). 
+- color customizations from @janoskk [powerline-js fork](https://github.com/janoskk/powerline-js)
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)
