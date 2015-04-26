@@ -2,6 +2,10 @@
 
 ![powerline prompt in action](http://i.imgur.com/EzEVaLB.png)
 
+The last segment of the prompt shows the git branch active, if you're in a git repo. Dirty repo segments are shown in white. If there are untracked files, a `+` is added. Deleted files are show with an `x`, modified files with a `check`, renamed files with a `right arrow` and staged files with a `star`.  If you have unpushed changes, there's an ⇡ with the change count. If the upstream repo has changes you've fetched but not yet merged, there's a ⇣ with the count of how many you're behind.
+
+![git repo ahead](http://i.imgur.com/m32AqIR.png)
+
 ## Features
 - powerline PS2 prompt
 - optional hostname segment
@@ -29,8 +33,7 @@ export PROMPT_COMMAND="_update_ps1"
 For zsh:
 
 ```sh
-function powerline_precmd()
-{
+function powerline_precmd() {
    export PS1="$(powerline $? --depth 2 --hostname) "
    export PS2="$(powerline $? --ps2 ) "
 }
