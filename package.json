@@ -1,6 +1,6 @@
 {
   "name": "pwrline-js",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "a powerline-style shell prompt builder for node js",
   "main": "powerline.js",
   "bin": {
