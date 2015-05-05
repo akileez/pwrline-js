@@ -1,4 +1,5 @@
 # pwrline-js
+[![stable][stability-image]][stability-url]
 
 ![powerline prompt in action](http://i.imgur.com/EzEVaLB.png)
 
@@ -105,4 +106,7 @@ export POWERLINE_REPO_DIRTY_FG=250
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)
+
+[stability-image]: https://img.shields.io/badge/stability-stable-brightgreen.svg?style=flat-square
+[stability-url]: https://github.com/akileez/pwrline-js
 
