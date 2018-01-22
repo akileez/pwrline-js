@@ -281,15 +281,15 @@ Powerline.prototype.addGitSegment = function (callback) {
 		}
 
 		if (hasUntracked)
-			branch += ' %F{28}✚%F{black}'
+			branch += ' ' + self.shell.fgcolor(28) + '✚' + self.shell.fgcolor(0)
 		if (hasAdded)
-			branch += ' %F{94}✭%F{black}'
+			branch += ' ' + self.shell.fgcolor(94) + '✭' + self.shell.fgcolor(0)
 		if (hasModified)
-			branch += ' %F{63}✔%F{black}'
+			branch += ' ' + self.shell.fgcolor(63) + '✔' + self.shell.fgcolor(0)
 		if (hasDeleted)
-			branch += ' %F{124}✘%F{black}'
+			branch += ' ' + self.shell.fgcolor(124) + '✘' + self.shell.fgcolor(0)
 		if (hasRenamed)
-			branch += ' %F{201}➜%F{black}'
+			branch += ' ' + self.shell.fgcolor(201) + '➜' + self.shell.fgcolor(0)
 
 		var fg = hasModified || hasAdded || hasUntracked || hasRenamed || hasDeleted ? COLOR.REPO_DIRTY_FG : COLOR.REPO_CLEAN_FG
 		var bg = hasModified || hasAdded || hasUntracked || hasRenamed || hasDeleted ? COLOR.REPO_DIRTY_BG : COLOR.REPO_CLEAN_BG
@@ -423,4 +423,3 @@ if (require.main === module) {
 exports.Powerline = Powerline
 exports.Segment = Segment
 exports.parseOptions = parseOptions
-
